@@ -48,7 +48,7 @@ void mergesort(int*arr,int s,int e)
 int part(int*arr,int s,int e)
 {
     int pivot=arr[e];
-    int i=0,pivotindex=0;
+    int i=s,pivotindex=s;
     while(i<e)
     {
         if(arr[i]<arr[e])
@@ -78,25 +78,27 @@ void quicksort(int*arr,int s,int e)
 
 int main()
 {
-  cout<<"THE ARRAY SIZE IS 100";
-  int n=100;
-  int*arr=new int[100];
-  for(int i=0;i<100;i++)
-  {
-      int num;
-      num=rand();
-      arr[i]=num;
-  }
-  cout<<"\nTHE ARRAY is\n\n";
-  for(int i=0;i<100;i++)
-  {
-      cout<<arr[i]<<" ";
-  }
-  cout<<endl;
-  cout<<endl<<"SORTED ARRAY IS\n";
-  quicksort(arr,0,n-1);
+  cout<<"\nEnter the size of array ";
+  int n;cin>>n;
+  cout<<"\nEnter the array\n";
+  int *arr1=new int[n];
+  int *arr2=new int[n];
   for(int i=0;i<n;i++)
   {
-      cout<<arr[i]<<" ";
+      cin>>arr1[i];
+      arr2[i]=arr1[i];
+  }
+  quicksort(arr1,0,n-1);
+  cout<<"\nSorted array is\n";
+  for(int i=0;i<n;i++)
+  {
+      cout<<arr1[i]<<" ";
+  }
+  cout<<endl<<endl;
+  mergesort(arr2,0,n-1);
+  cout<<"\nSorted array is\n";
+  for(int i=0;i<n;i++)
+  {
+    cout<<arr2[i]<<" ";
   }
 }
