@@ -1,16 +1,36 @@
 // A naive recursive implementation of
 // optimal binary search tree problem
+
+
+
+
+
+
+
+
+(comment this to run the code)conept used is
+left recursive call returns returns left subtree root and right recursive call returns right subtree root
+and we save these left and right roots in current root l and r pointers if the cost of using this i value as root for
+current level.
+
+
+
+
+
 #include <bits/stdc++.h>
 using namespace std;
 int keys[] = {10,12,16,21};
+class treenode;
 class item
 {
     public:
-    stack<int> s;
+    //stack<int> s;
+    treenode *root;
     int cost;
     item()
     {
         cost=0;
+        root=NULL;
     }
 };
 
@@ -37,7 +57,10 @@ item optCost(int freq[], int i, int j)
         {
             item temp;
             temp.cost=freq[i];
-            temp.s.push(keys[i]);
+            temp.root=new treenode;
+            temp.root->value=keys[i];
+            temp.root->l=NULL;
+            temp.root->r=NULL;
         }
 
     // Get sum of freq[i], freq[i+1], ... freq[j]
@@ -53,12 +76,15 @@ item optCost(int freq[], int i, int j)
     // min and update min if needed
     for (int r = i; r <= j; r++)
     {
-        item templ = optCost(freq, i, r - 1);
+        item templ=optCost(freq, i, r - 1);
         item tempr=optCost(freq, r + 1, j);
         item temp;
         temp.cost=templ.cost+tempr.cost;
-        temp.s=tempr.s;
-        stack<int> test;
+        temp.root=new treenode;
+        temp.root->value=keys[r];
+        temp.root->l=templ.root;
+        temp.root->r=tempr.root;
+        /*stack<int> test;
         while(templ.s.size()!=0)
         {
             test.push(templ.s.top());
@@ -68,11 +94,10 @@ item optCost(int freq[], int i, int j)
         {
             temp.s.push(test.top());
             test.pop();
-        }
+        }*/
         if (temp.cost < ans.cost)
-            {ans.cost = temp.cost;ans.s=temp.s;root=r;}
+            {ans.cost = temp.cost;ans.root=temp.root;root=r;}
     }
-    ans.s.push(keys[root]);
     ans.cost+=fsum;
     // Return minimum value
     return ans;
@@ -132,14 +157,14 @@ int main()
     item ans=optCost(freq,0,n-1);
     cout << "Cost of Optimal BST is "
          << ans.cost<<endl;
-         while(ans.s.size()!=0)
+         /*while(ans.s.size()!=0)
          {
              cout<<ans.s.top()<<endl;ans.s.pop();
          }
     treenode*root=new treenode;
     root->value=ans.s.top();
     ans.s.pop();
-    while(ans.s.size()!=0){root=make(root,ans.s.top());ans.s.pop();}
-    printtree(root);
+    while(ans.s.size()!=0){root=make(root,ans.s.top());ans.s.pop();}*/
+    printtree(ans.root);
     return 0;
 }
